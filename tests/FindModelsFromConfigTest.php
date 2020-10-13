@@ -14,11 +14,11 @@ class FindModelsFromConfigTest extends TestCase
         $method = self::getMethod(CleanUpModelsCommand::class, 'getFullyQualifiedClassNameFromFile');
         $cmd = new CleanUpModelsCommand(app()->make('files'));
 
-        $className = $method->invokeArgs($cmd, ["./tests/Models/CleanableItem.php"]);
+        $className = $method->invokeArgs($cmd, [__DIR__ . "/Models/CleanableItem.php"]);
 
         $this->assertTrue($className !== "");
-        
-        $className = $method->invokeArgs($cmd, ["./tests/Models/NotAClass.php"]);
+
+        $className = $method->invokeArgs($cmd, [__DIR__ . "/Models/NotAClass.php"]);
 
         $this->assertTrue($className === "");
     }
@@ -29,7 +29,7 @@ class FindModelsFromConfigTest extends TestCase
         $method = self::getMethod(CleanUpModelsCommand::class, 'getClassNamesInDirectory');
         $cmd = new CleanUpModelsCommand(app()->make('files'));
 
-        $classNames = $method->invokeArgs($cmd, ["./tests/Models"]);
+        $classNames = $method->invokeArgs($cmd, [__DIR__ . "/Models"]);
 
         $this->assertContains(CleanableItem::class, $classNames);
         $this->assertContains(SubDirectoryCleanableItem::class, $classNames);
